@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "name": "Nurul",
+      "email": "nurul@gmail.com",
+      "password": "$2b$10$B1XIOxUoXPNnMe9FCR37bOKDQ83JegnqQImWTlG9PhUyKJdKVuZCe",
+      "role": "USER",
+      "id": "NgV8VeqSIgA"
+    },
+    {
+      "name": "Rahul",
+      "email": "rahul@gmail.com",
+      "password": "$2b$10$RLINo9FedJzADM.oaVGaauZngE/TllSYLp07rUj3rKG9.xdhmUmtS",
+      "role": "USER",
+      "id": "_g18qgtBLYA"
+    }
+  ],
+  "posts": [],
+  "categories": [],
+  "comments": [],
+  "$schema": "./node_modules/json-server/schema.json"
+}
