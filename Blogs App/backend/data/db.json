@@ -13,9 +13,39 @@
       "password": "$2b$10$RLINo9FedJzADM.oaVGaauZngE/TllSYLp07rUj3rKG9.xdhmUmtS",
       "role": "USER",
       "id": "_g18qgtBLYA"
+    },
+    {
+      "name": "Admin",
+      "email": "admin@gmail.com",
+      "password": "$2b$10$0yVK0h2J3CbCxdkdUhM3suE5JP1OoxGfYaunAy1oRlMibuhe44XuW",
+      "role": "ADMIN",
+      "id": "D7IvjSjdsk4"
     }
   ],
-  "posts": [],
+  "posts": [
+    {
+      "title": "MyHello",
+      "content": "Hello this my first application",
+      "categoryId": 2,
+      "image": "https://res.cloudinary.com/ime67yib/image/upload/v1788241477/blog/rjkotpxqfdkkeqn2sjcw.jpg",
+      "id": "QP-Q3zsufcU"
+    },
+    {
+      "title": "My Post",
+      "content": "This is my post",
+      "categoryId": 2,
+      "image": "https://res.cloudinary.com/ime67yib/image/upload/v1788241535/blog/mknlrm81rpihzipiqu4m.jpg",
+      "id": "9Q2Cjc_pkBs"
+    },
+    {
+      "title": "Javascript Code",
+      "content": "Javascript is high level dynamically typed single threader synchronous programming language",
+      "categoryId": 3,
+      "autherId": "D7IvjSjdsk4",
+      "image": "https://res.cloudinary.com/ime67yib/image/upload/v1788245759/blog/id6p1kvdnteniib4430s.png",
+      "id": "MtAptK6JL1g"
+    }
+  ],
   "categories": [],
   "comments": [],
   "$schema": "./node_modules/json-server/schema.json"

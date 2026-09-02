@@ -1,9 +1,11 @@
 import { userRepository } from "../repositories/userRepository.js";
 import { User } from '../models/User.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from "../utils/env.js";
 export const register = async (req, resp, next) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password,role } = req.body;
         const existingUser = await userRepository.getByEmail(email);
         if (existingUser) {
             return resp.status(409).json({
@@ -15,7 +17,8 @@ export const register = async (req, resp, next) => {
         const user = new User({
             name,
             email,
-            password: hashPassword
+            password: hashPassword,
+            role
         });
         const createUser = await userRepository.create(user);
         return resp.status(201).json({
@@ -30,5 +33,50 @@ export const register = async (req, resp, next) => {
         });
     } catch (error) {
         console.log(error.message);
+    }
+}
+export const login = async (req, resp, next) => {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return resp.status(400).json({
+                success: false,
+                message: "Feild cannot be empty"
+            })
+        }
+        const user=await userRepository.getByEmail(email);
+        if(!user){
+           return resp.status(401).json({
+                success: false,
+                message: "Invalid email or password"
+            }) 
+        }
+        const isValid=await bcrypt.compare(password,user.password);
+        if(!isValid){
+           return resp.status(401).json({
+                success: false,
+                message: "Invalid email or password"
+            })  
+        }
+        const token=jwt.sign(
+           {userId:user.id,role:user.role},
+           JWT_SECRET,
+           {expiresIn:'1d'} 
+        )
+        resp.status(200).json({
+            success:true,
+            token,
+            user:{
+                id:user.id,
+                name:user.name,
+                email:user.email,
+                role:user.role
+            }
+        })
+    } catch (error) {
+        return resp.status(400).json({
+            success: false,
+            message: error.message
+        })
     }
 }
