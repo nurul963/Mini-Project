@@ -94,3 +94,48 @@ export const getResultById=async(req,resp)=>{
         }
     })
 }
+export const getStudentResult=async(req,resp)=>{
+    const {studentId}=req.params;
+    const results=await Result.find({studentId})
+                             .populate("studentId")
+                             .populate("classId")
+                             .populate("examId")
+    if(results.length===0){
+        return resp.status(404).json({
+            success:false,
+            message:"No result found for this student"
+        })
+    }
+    const finalResults=[]
+    for(const result of results){
+        const details=await ResultDetail.find({
+            resultId:result._id
+        }).populate("subjectId");
+        finalResults.push({
+            result,
+            subjects:details
+        })
+    }
+    resp.status(200).json({
+        success:true,
+        data:finalResults
+    })
+
+
+}
+export const deleteResult=async(req,resp)=>{
+    const result=await Result.findByIdAndDelete(req.params.id);
+    if(!result){
+        return resp.status(404).json({
+            success:false,
+            message:"Result not found"
+        })
+    }
+    await ResultDetail.deleteMany({
+        resultId:result._id
+    });
+    resp.status(200).json({
+        success:true,
+        message:"Result deleted successfully"
+    });
+}
