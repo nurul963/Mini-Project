@@ -1,7 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { login } from "../../service/auth.service.js";
+import { useNavigate } from "react-router-dom";
 
 
 const Login = () => {
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
+  const [emailError,setEmailError]=useState("");
+  const [passwordError,setPasswordError]=useState("");
+  const navigate=useNavigate();
+  const isValid=()=>{
+    const mailPattern=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if(!email.trim()){
+      setEmailError("Email is required");
+    }else if(!mailPattern.test(email.trim())){
+      setEmailError("Please enter valid email");
+    }
+    if(!password.trim()){
+      setPasswordError("Password is required")
+    }
+    return (!emailError && !passwordError);
+  }
+  const handleOnSubmit=async()=>{
+    try {
+      setEmailError("");
+      setPasswordError("");
+      if(!isValid())return;
+      const response=await login({email,password});
+      if(response.data?.statusCode===200){
+        const data=response?.data?.data;
+        const token=data?.token;
+        const user=Object.fromEntries(
+          Object.entries(data).filter(([key])=>key!=="token")
+        );
+        localStorage.setItem("token",token);
+        localStorage.setItem("user",JSON.stringify(user));
+        toast.success(response.data.message);
+        setEmail("");
+        setPassword("");
+        if(user?.user_type==="ADMIN"){
+          // navigate admin dashboard
+          navigate("/admin")
+        }else if(user?.user_type==="RECRUITER"){
+          // navigate recruiter dashboard
+          navigate("/recruiter")
+        }else{
+        // navigate candidate dashboard
+          navigate("/candidate")
+        }
+      }else{
+        toast.error(response.data.message)
+      }
+    } catch (error) {
+      const message=error.response.data.message || error.message;
+      toast.error(message)
+    }
+  }
  return (
    <div
      className="min-vh-100 d-flex align-items-center py-5"
@@ -184,7 +239,7 @@ const Login = () => {
 
 
                    <label className="form-label fw-semibold">
-                     Email Address
+                     Email Address<span className="text-danger">*</span>
                    </label>
 
 
@@ -198,12 +253,18 @@ const Login = () => {
 
                      <input
                        type="email"
+                       value={email}
+                       onChange={(e)=>setEmail(e.target.value)}
                        className="form-control form-control-lg bg-light border-0"
                        placeholder="you@example.com"
                      />
-
+                    
 
                    </div>
+                    {
+                        emailError &&
+                     <small className="text-danger">{emailError}</small>
+                     }
 
 
                  </div>
@@ -219,7 +280,7 @@ const Login = () => {
 
 
                      <label className="form-label fw-semibold">
-                       Password
+                       Password<span className="text-danger">*</span>
                      </label>
 
 
@@ -247,46 +308,23 @@ const Login = () => {
 
                      <input
                        type="password"
+                       value={password}
+                       onChange={(e)=>setPassword(e.target.value)}
                        className="form-control form-control-lg bg-light border-0"
                        placeholder="Enter your password"
                      />
-
-
                    </div>
+                   {
+                        passwordError &&
+                     <small className="text-danger">{passwordError}</small>
+                    }
 
 
                  </div>
-
-
-
-
-                 {/* ================= REMEMBER ================= */}
-                 <div className="form-check mb-4">
-
-
-                   <input
-                     className="form-check-input"
-                     type="checkbox"
-                     id="remember"
-                   />
-
-
-                   <label
-                     className="form-check-label text-secondary"
-                     htmlFor="remember"
-                   >
-                     Remember me
-                   </label>
-
-
-                 </div>
-
-
-
-
                  {/* ================= LOGIN BUTTON ================= */}
                  <button
                    type="button"
+                   onClick={handleOnSubmit}
                    className="btn btn-lg w-100 text-white fw-semibold py-3 rounded-3"
                    style={{
                      background:

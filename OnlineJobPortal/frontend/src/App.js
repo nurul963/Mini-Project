@@ -1,11 +1,12 @@
 import { ToastContainer } from 'react-toastify';
 import './App.css';
-import Register from './components/auth/Register';
+import AppRoute from './AppRoute';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
   return (
-    <>
-    <Register/>
+    <BrowserRouter>
+    <AppRoute/>
     <ToastContainer
     position='top-right'
     autoClose={3000}
@@ -14,7 +15,7 @@ function App() {
     closeOnClick
     pauseOnHover
     />
-    </>
+    </BrowserRouter>
   );
 }
 

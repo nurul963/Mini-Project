@@ -20,7 +20,7 @@ const companyModel = (sequelize)=>{
         },
         company_logo:{
             type:DataTypes.STRING,
-            allowNull:true
+            allowNull:false
         },
         company_website:{
             type:DataTypes.STRING,
@@ -29,6 +29,10 @@ const companyModel = (sequelize)=>{
         about_company:{
             type:DataTypes.TEXT,
             allowNull:false
+        },
+        public_key:{
+            type:DataTypes.STRING,
+            allowNull:true
         }
     })
 }
