@@ -16,7 +16,10 @@ const companyModel = (sequelize)=>{
         },
         company_size:{
             type:DataTypes.STRING,
-            allowNull:false
+            allowNull:false,
+            set(value){
+                this.setDataValue('company_size', value+' employees');
+            }
         },
         company_logo:{
             type:DataTypes.STRING,

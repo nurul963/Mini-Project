@@ -9,7 +9,7 @@ const jobModel=(sequelize)=>{
                 autoIncrement:true
             },
             // JOB BASIC INFORMATION
-            title:{
+            title:{ 
                 type:DataTypes.STRING(255),
                 allowNull:false
             },

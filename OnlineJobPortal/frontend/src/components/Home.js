@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthProvider.js';
 
 const Home = () => {
-  const [activeTab, setActiveTab] = useState('candidate'); // 'candidate' or 'recruiter'
+  const { token, loading,setUser,setToken } = useAuth();
+  const [activeTab, setActiveTab] = useState('candidate');
+  if (loading) {
+    return (
+      <div className='d-flex justify-content-center align-item-center min-vh-100'>
+        <div className='spinner-border text-primary' role='status'>
+          <span className='visually-hidden'>Loading...</span>
 
+        </div>
+      </div>
+    )
+  }
   // Sample Featured Jobs
   const featuredJobs = [
     { id: 1, title: 'Senior React Developer', company: 'TechCorp', location: 'Remote', type: 'Full-time', salary: '$120k - $140k', tags: ['React', 'JavaScript', 'Node.js'] },
@@ -24,7 +35,7 @@ const Home = () => {
 
   return (
     <div className="d-flex flex-column min-vh-100 bg-light">
-      
+
       {/* 1. NAVBAR */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
         <div className="container">
@@ -49,8 +60,26 @@ const Home = () => {
             </ul>
 
             <div className="d-flex gap-2">
-              <Link to='/login' className="btn btn-outline-light btn-sm px-3">Log In</Link>
-              <Link to='/register' className="btn btn-primary btn-sm px-3">Sign Up</Link>
+              {
+                token ? (
+                  <>
+                  <button 
+                  onClick={()=>{
+                    localStorage.clear();
+                    setUser(null);
+                    setToken(null);
+                  }}
+                  className="btn btn-outline-danger btn-sm px-3">Logout</button>
+                  </>
+                ):(
+                 <>
+                  <Link to='/login' className="btn btn-outline-light btn-sm px-3">Log In</Link>
+                  <Link to='/register' className="btn btn-primary btn-sm px-3">Sign Up</Link>
+                 </>
+                )
+              }
+              
+              
             </div>
           </div>
         </div>
@@ -59,7 +88,7 @@ const Home = () => {
       {/* 2. HERO SECTION WITH TOGGLE (CANDIDATE vs RECRUITER) */}
       <section className="bg-dark text-white py-5 border-bottom border-secondary">
         <div className="container py-4 text-center">
-          
+
           {/* Audience Switcher */}
           <div className="d-inline-flex bg-secondary bg-opacity-25 rounded-pill p-1 mb-4 border border-secondary">
             <button
@@ -83,7 +112,7 @@ const Home = () => {
               <p className="lead text-secondary mb-4 col-md-8 mx-auto">
                 Discover thousands of job opportunities from top companies worldwide.
               </p>
-              
+
               {/* Job Search Form */}
               <div className="card p-3 shadow-lg max-w-lg mx-auto bg-body text-dark border-0 rounded-4">
                 <div className="row g-2">
@@ -233,7 +262,7 @@ const Home = () => {
       <section className="py-5">
         <div className="container">
           <div className="row g-4 align-items-center">
-            
+
             {/* For Job Seekers */}
             <div className="col-lg-6">
               <div className="p-4 p-md-5 bg-white rounded-4 shadow-sm border">
@@ -292,7 +321,7 @@ const Home = () => {
                 Connecting talented professionals with world-class employers through seamless matching technology.
               </p>
             </div>
-            
+
             <div className="col-6 col-lg-2">
               <h6 className="fw-bold text-white mb-3">For Candidates</h6>
               <ul className="list-unstyled small text-secondary">

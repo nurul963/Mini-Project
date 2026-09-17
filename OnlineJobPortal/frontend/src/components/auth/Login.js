@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { login } from "../../service/auth.service.js";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider.js";
 
 
 const Login = () => {
@@ -9,6 +10,7 @@ const Login = () => {
   const [password,setPassword]=useState("");
   const [emailError,setEmailError]=useState("");
   const [passwordError,setPasswordError]=useState("");
+  const {setUser,setToken}=useAuth();
   const navigate=useNavigate();
   const isValid=()=>{
     const mailPattern=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -37,6 +39,8 @@ const Login = () => {
         localStorage.setItem("token",token);
         localStorage.setItem("user",JSON.stringify(user));
         toast.success(response.data.message);
+        setUser(user);
+        setToken(token);
         setEmail("");
         setPassword("");
         if(user?.user_type==="ADMIN"){

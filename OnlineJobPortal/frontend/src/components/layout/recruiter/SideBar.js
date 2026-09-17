@@ -1,7 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../../context/AuthProvider';
 
 const SideBar = () => {
+  const navigate=useNavigate();
+  const {setUser,setToken}=useAuth();
   return (
     <>
     <aside className="col-lg-2 d-none d-lg-block bg-white border-end min-vh-100 p-3">
@@ -178,6 +181,12 @@ const SideBar = () => {
 
              {/* LOGOUT */}
              <button
+             onClick={()=>{
+                    localStorage.clear();
+                    setUser(null);
+                    setToken(null);
+                    navigate("/")
+                  }}
                className="btn d-flex align-items-center gap-3 text-danger rounded-3 px-3 py-3 w-100 text-start"
              >
                <span>↪</span>

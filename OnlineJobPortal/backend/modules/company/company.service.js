@@ -41,7 +41,7 @@ export const addCompnayService=async(user_id,logo,data,role)=>{
             company_size,
             company_website,
             about_company,
-            company_log:uploadlogo.secure_url,
+            company_logo:uploadlogo.secure_url,
             public_key:uploadlogo.public_id
         }
     );
@@ -54,5 +54,38 @@ export const addCompnayService=async(user_id,logo,data,role)=>{
     return response(201,"Company Created Successfully",company);
     } catch (error) {
        return response(500,error.message);
+    }
+}
+export const getAllCompanyService=async()=>{
+    try {
+        const result=await Company.findAll();
+        return response(200,"Company fetched Successfully",result);
+    } catch (error) {
+       return response(500,error.message); 
+    }
+}
+export const getCompanyByRecruiterIdService=async(user_id,role)=>{
+    try {
+        let company;
+        let recruiter
+        if(role==="RECRUITER"){
+            recruiter=await Recruiter.findOne({
+                where:{
+                    recruiter_id:user_id
+                }
+            });
+            if(!recruiter){
+               return response(400,"Company not found for this recruiter"); 
+            }
+            company=await Company.findByPk(
+                recruiter.company_id
+            );
+        }
+        if(!company){
+           return response(400,"Company not found"); 
+        }
+        return response(200,"Company fetched successfully",{company,recruiter});
+    } catch (error) {
+        return response(500,error.message); 
     }
 }
