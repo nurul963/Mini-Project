@@ -4,11 +4,13 @@ import companyModel from './company.model.js';
 import jobModel from './job.model.js';
 import recruiterModel from './recruiter.js';
 import userModel from "./user.model.js";
+import applicationModel from './application.model.js'
 const User=userModel(sequelize);
 const Company=companyModel(sequelize);
 const JobCategory=jobCategoryModel(sequelize);
 const Job=jobModel(sequelize);
 const Recruiter=recruiterModel(sequelize);
+const Application=applicationModel(sequelize);
 //recruiter and user 1:1
 User.hasOne(Recruiter,{
     foreignKey:'recruiter_id'
@@ -23,10 +25,15 @@ User.hasMany(Job,{foreignKey:'recruiter_id'});
 Job.belongsTo(JobCategory,{foreignKey:'category_id'});
 Job.belongsTo(Company,{foreignKey:'company_id'});
 Job.belongsTo(User,{foreignKey:'recruiter_id'});
+Job.hasMany(Application,{foreignKey:'job_id'});
+Application.belongsTo(Job,{foreignKey:'job_id'});
+User.hasMany(Application,{foreignKey:'candidate_id'})
+Application.belongsTo(User,{foreignKey:'candidate_id'})
 export {
     User,
     Company,
     JobCategory,
     Job,
-    Recruiter
+    Recruiter,
+    Application
 }

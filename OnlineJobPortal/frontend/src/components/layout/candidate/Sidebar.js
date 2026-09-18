@@ -1,10 +1,19 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../context/AuthProvider';
 
 const Sidebar = () => {
   const navigate=useNavigate();
+  const location=useLocation();
   const {setUser,setToken}=useAuth();
+  // active link style
+  const getLinkStyle=(path)=>{
+    const isActive= location.pathname === path;
+    return {
+      backgroundColor:isActive ? "#f8eef2":"transparent",
+      color:isActive?"#7f1d3f":"#6c757d"
+    }
+  }
   return (
     <>
     <aside className="col-lg-2 d-none d-lg-block bg-white border-end min-vh-100 p-3">
@@ -28,13 +37,10 @@ const Sidebar = () => {
                <Link
                  to="/candidate"
                  className="d-flex align-items-center gap-3 text-decoration-none rounded-3 px-3 py-3 mb-1"
-                 style={{
-                   backgroundColor: "#f8eef2",
-                   color: "#7f1d3f",
-                 }}
+                 style={getLinkStyle("/candidate")}
                >
                  <span>▣</span>
-                 <span className="fw-semibold">
+                 <span className={location.pathname==="/candidate" ? "fw-semibold":""}>
                    Dashboard
                  </span>
                </Link>
@@ -45,9 +51,12 @@ const Sidebar = () => {
                <Link
                  to="/candidate/jobs"
                  className="d-flex align-items-center gap-3 text-decoration-none text-secondary rounded-3 px-3 py-3 mb-1"
+                style={getLinkStyle("/candidate/jobs")}
                >
                  <span>⌕</span>
-                 <span>
+                 <span
+                 className={location.pathname==="/candidate/jobs" ? "fw-semibold":""}
+                 >
                    Find Jobs
                  </span>
                </Link>
@@ -57,10 +66,13 @@ const Sidebar = () => {
 
                <Link
                  to="/candidate/applications"
+                 style={getLinkStyle("/candidate/applications")}
                  className="d-flex align-items-center gap-3 text-decoration-none text-secondary rounded-3 px-3 py-3 mb-1"
                >
                  <span>▤</span>
-                 <span>
+                 <span
+                 className={location.pathname==="/candidate/applications" ? "fw-semibold":""}
+                 >
                    Applications
                  </span>
                </Link>
@@ -70,10 +82,13 @@ const Sidebar = () => {
 
                <Link
                  to="/candidate/saved-jobs"
+                 style={getLinkStyle("/candidate/saved-jobs")}
                  className="d-flex align-items-center gap-3 text-decoration-none text-secondary rounded-3 px-3 py-3 mb-1"
                >
                  <span>♡</span>
-                 <span>
+                 <span
+                 className={location.pathname==="/candidate/saved-jobs" ? "fw-semibold":""}
+                 >
                    Saved Jobs
                  </span>
                </Link>
@@ -83,10 +98,13 @@ const Sidebar = () => {
 
                <Link
                  to="/candidate/profile"
+                 style={getLinkStyle("/candidate/profile")}
                  className="d-flex align-items-center gap-3 text-decoration-none text-secondary rounded-3 px-3 py-3 mb-1"
                >
                  <span>◎</span>
-                 <span>
+                 <span
+                 className={location.pathname==="/candidate/profile" ? "fw-semibold":""}
+                 >
                    My Profile
                  </span>
                </Link>
@@ -120,10 +138,13 @@ const Sidebar = () => {
 
                <Link
                  to="/candidate/settings"
+                 style={getLinkStyle("/candidate/settings")}
                  className="d-flex align-items-center gap-3 text-decoration-none text-secondary rounded-3 px-3 py-3"
                >
                  <span>⚙</span>
-                 <span>
+                 <span
+                 className={location.pathname==="/candidate/settings" ? "fw-semibold":""}
+                 >
                    Settings
                  </span>
                </Link>

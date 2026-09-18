@@ -1,16 +1,14 @@
 import React from "react";
+import { useAuth } from "../../context/AuthProvider";
+import Spinner from '../common/Spinner'
 
 
 const Profile = () => {
- const user = {
-   user_id: 1,
-   full_name: "Nurul Islam",
-   email: "nurul@example.com",
-   phone: 9876543210,
-   user_type: "CANDIDATE",
-   status: "ACTIVE",
- };
-
+  const {user,loading}=useAuth();
+  
+  if(loading){
+    return <Spinner/>
+  }
 
  const skills = [
    "JavaScript",

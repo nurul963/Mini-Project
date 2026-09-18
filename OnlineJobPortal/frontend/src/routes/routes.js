@@ -9,9 +9,11 @@ import RecruiterDashboard from "../components/recruiter/RecruiterDashboard";
 import AdminLayout from '../components/layout/admin/AdminLayout'
 import AdminDashboard from "../components/admin/AdminDashboard";
 import CandidateJobs from "../components/candidate/CandidateJobs";
+import JobDetails from '../components/candidate/JobDetails'
 import Profile from "../components/candidate/Profile";
 import ProtectedRoute from "./ProtectedRoute";
 import Unauthorized from "../components/common/Unauthorized";
+import Applications from "../components/candidate/Applications";
 export const routes = [
     { path: '/', element: <Home />, children: [] },
     { path: '/register', element: <Register /> },
@@ -28,6 +30,8 @@ export const routes = [
                 children: [
                     { index: true, element: <CandidateDashboard /> },
                     { path: 'jobs', element: <CandidateJobs /> },
+                    { path: 'jobs/:id', element: <JobDetails/> },
+                    { path: 'applications', element: <Applications/> },
                     { path: 'profile', element: <Profile /> }
                 ]
             }

@@ -49,10 +49,10 @@ const Home = () => {
           <div className="collapse navbar-collapse" id="navContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
               <li className="nav-item">
-                <a className="nav-link active" href="#jobs">Find Jobs</a>
+                <Link className="nav-link active" to='/candidate/jobs'>Find Jobs</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#employers">For Employers</a>
+                <Link className="nav-link" to='/recruiter'>For Employers</Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#pricing">Pricing</a>
