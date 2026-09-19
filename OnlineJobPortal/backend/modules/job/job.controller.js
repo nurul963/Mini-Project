@@ -1,4 +1,4 @@
-import { createJobService, getAllJobService, getJobByIdService } from "./jo.service.js";
+import { createJobService, getAllJobService, getJobByIdService, getJobByRecruiterService } from "./jo.service.js";
 
 export const createJobController=async(req,resp)=>{
     const {user_id}=req.user;
@@ -15,5 +15,10 @@ export const getJobByIdController=async(req,resp)=>{
     const {job_id}=req.params;
     const {user_id}=req.user;
     const result=await getJobByIdService(user_id,job_id);
+    resp.status(result.statusCode).json(result);
+}
+export const getAllJobRecruiterController=async(req,resp)=>{
+    const {user_id}=req.user;
+    const result=await getJobByRecruiterService(user_id);
     resp.status(result.statusCode).json(result);
 }

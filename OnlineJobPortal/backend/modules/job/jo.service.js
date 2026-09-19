@@ -62,3 +62,20 @@ export const getJobByIdService=async(id,job_id)=>{
         return response(500,error.message);  
     }
 }
+
+export const getJobByRecruiterService=async(recruiter_id)=>{
+    try {
+        const result=await Job.findAndCountAll({
+            where:{
+                recruiter_id:recruiter_id
+            },
+            include:[
+                {model:Company},
+                {model:JobCategory}
+            ]
+        });
+        return response(200,"Job list",result);
+    } catch (error) {
+        return response(500,error.message); 
+    }
+}

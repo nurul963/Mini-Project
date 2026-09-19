@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getJobDetails } from "../../service/jobs.service";
+import { applyJob } from "../../service/application.service.js";
 
 const JobDetails = () => {
   const {id}=useParams();
@@ -23,8 +24,19 @@ const JobDetails = () => {
   useEffect(()=>{
     getJob(id);
   },[id])
-  
-
+  const applyThisJob=async(job_id)=>{
+      try {
+        const response=await applyJob({job_id});
+        console.log(response);
+        if(response.data.statusCode===201){
+          toast.success(response.data.message);
+          getJob(job_id)
+        }
+      } catch (error) {
+        const message = error.response.data.message || error.message;
+        toast.error(message)
+      }
+    }
   return (
     <div className="bg-light min-vh-100 py-5">
       <div className="container">
@@ -224,8 +236,21 @@ const JobDetails = () => {
                   Ready to apply?
                 </h5>
 
-                <button className="btn btn-primary btn-lg w-100 rounded-3">
-                  Apply Now
+                <button 
+                onClick={()=>applyThisJob(job?.job_id)}
+                className={`btn btn-primary btn-lg w-100 rounded-3 ${job?.Applications.length>0 ? 'disabled':''}`}>
+                  {
+                  job?.Applications.length>0 ? 
+                  (
+                    <>
+                    {job?.Applications[0].status}
+                    </>
+                  ):(
+                    <>
+                    Apply Now
+                    </>
+                  )
+                } 
                 </button>
 
                 <p className="text-center text-muted small mt-3 mb-0">

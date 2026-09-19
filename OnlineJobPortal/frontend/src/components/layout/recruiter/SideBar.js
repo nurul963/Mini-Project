@@ -1,10 +1,19 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../context/AuthProvider';
 
 const SideBar = () => {
   const navigate=useNavigate();
   const {setUser,setToken}=useAuth();
+  const location=useLocation();
+    // active link style
+  const getLinkStyle=(path)=>{
+    const isActive= location.pathname === path;
+    return {
+      backgroundColor:isActive ? "#f8eef2":"transparent",
+      color:isActive?"#7f1d3f":"#6c757d"
+    }
+  }
   return (
     <>
     <aside className="col-lg-2 d-none d-lg-block bg-white border-end min-vh-100 p-3">
@@ -34,12 +43,9 @@ const SideBar = () => {
 
                {/* DASHBOARD */}
                <Link
-                 to="/recruiter/dashboard"
+                 to="/recruiter"
                  className="d-flex align-items-center gap-3 text-decoration-none rounded-3 px-3 py-3 mb-1"
-                 style={{
-                   backgroundColor: "#f8eef2",
-                   color: "#7f1d3f",
-                 }}
+                 style={getLinkStyle("/recruiter")}
                >
                  <span>▣</span>
 
@@ -55,6 +61,7 @@ const SideBar = () => {
                {/* MY JOBS */}
                <Link
                  to="/recruiter/jobs"
+                 style={getLinkStyle("/recruiter/jobs")}
                  className="d-flex align-items-center gap-3 text-decoration-none text-secondary rounded-3 px-3 py-3 mb-1"
                >
                  <span>▤</span>
@@ -71,6 +78,7 @@ const SideBar = () => {
                {/* POST JOB */}
                <Link
                  to="/recruiter/jobs/create"
+                 style={getLinkStyle("/recruiter/jobs/create")}
                  className="d-flex align-items-center gap-3 text-decoration-none text-secondary rounded-3 px-3 py-3 mb-1"
                >
                  <span>＋</span>
@@ -87,6 +95,7 @@ const SideBar = () => {
                {/* APPLICATIONS */}
                <Link
                  to="/recruiter/applications"
+                 style={getLinkStyle("/recruiter/applications")}
                  className="d-flex align-items-center gap-3 text-decoration-none text-secondary rounded-3 px-3 py-3 mb-1"
                >
                  <span>▥</span>
@@ -103,6 +112,7 @@ const SideBar = () => {
                {/* CANDIDATES */}
                <Link
                  to="/recruiter/candidates"
+                 style={getLinkStyle("/recruiter/candidates")}
                  className="d-flex align-items-center gap-3 text-decoration-none text-secondary rounded-3 px-3 py-3 mb-1"
                >
                  <span>◎</span>
@@ -143,6 +153,7 @@ const SideBar = () => {
 
                <Link
                  to="/recruiter/company"
+                 style={getLinkStyle("/recruiter/company")}
                  className="d-flex align-items-center gap-3 text-decoration-none text-secondary rounded-3 px-3 py-3 mb-1"
                >
                  <span>▣</span>
@@ -158,6 +169,7 @@ const SideBar = () => {
 
                <Link
                  to="/recruiter/settings"
+                 style={getLinkStyle("/recruiter/settings")}
                  className="d-flex align-items-center gap-3 text-decoration-none text-secondary rounded-3 px-3 py-3"
                >
                  <span>⚙</span>

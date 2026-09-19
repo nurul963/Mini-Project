@@ -45,9 +45,10 @@ const CandidateJobs = () => {
   const applyThisJob=async(job_id)=>{
     try {
       const response=await applyJob({job_id});
-      if(response.data.statusCode===200){
+      console.log(response);
+      if(response.data.statusCode===201){
         toast.success(response.data.message);
-        window.location.reload();
+        getJobs(5,offset);
       }
     } catch (error) {
       const message = error.response.data.message || error.message;

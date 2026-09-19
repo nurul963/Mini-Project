@@ -1,19 +1,22 @@
 import Login from "../components/auth/Login";
+import { lazy } from "react";
 import Register from "../components/auth/Register";
-import CandidateDashboard from "../components/candidate/CandidateDashboard";
 import Home from "../components/Home";
-import CandidateLayout from "../components/layout/candidate/CandidateLayout";
-import RecruiterLayout from "../components/layout/recruiter/RecruiterLayout";
-import PageNotFound from '../components/PageNotFound'
-import RecruiterDashboard from "../components/recruiter/RecruiterDashboard";
-import AdminLayout from '../components/layout/admin/AdminLayout'
-import AdminDashboard from "../components/admin/AdminDashboard";
-import CandidateJobs from "../components/candidate/CandidateJobs";
-import JobDetails from '../components/candidate/JobDetails'
-import Profile from "../components/candidate/Profile";
-import ProtectedRoute from "./ProtectedRoute";
-import Unauthorized from "../components/common/Unauthorized";
-import Applications from "../components/candidate/Applications";
+const CandidateDashboard =lazy(()=>import("../components/candidate/CandidateDashboard")) ;
+const CandidateLayout =lazy(()=>import("../components/layout/candidate/CandidateLayout")) ;
+const RecruiterLayout =lazy(()=>import("../components/layout/recruiter/RecruiterLayout")) ;
+const PageNotFound =lazy(()=>import('../components/PageNotFound')) 
+const RecruiterDashboard =lazy(()=>import("../components/recruiter/RecruiterDashboard")) ;
+const AdminLayout =lazy(()=>import('../components/layout/admin/AdminLayout')) ;
+const AdminDashboard =lazy(()=>import("../components/admin/AdminDashboard")) ;
+const CandidateJobs =lazy(()=>import("../components/candidate/CandidateJobs")) ;
+const JobDetails =lazy(()=>import('../components/candidate/JobDetails')) 
+const Profile =lazy(()=>import("../components/candidate/Profile")) ;
+const ProtectedRoute =lazy(()=>import("./ProtectedRoute")) ;
+const Unauthorized =lazy(()=>import("../components/common/Unauthorized")) ;
+const Applications =lazy(()=>import("../components/candidate/Applications")) ;
+const CreateJob =lazy(()=>import("../components/recruiter/CreateJob")) ;
+const RecruiterJobs =lazy(()=>import("../components/recruiter/RecruiterJobs")) ;
 export const routes = [
     { path: '/', element: <Home />, children: [] },
     { path: '/register', element: <Register /> },
@@ -47,7 +50,9 @@ export const routes = [
                 path: '/recruiter',
                 element: <RecruiterLayout />,
                 children: [
-                    { index: true, element: <RecruiterDashboard /> }
+                    { index: true, element: <RecruiterDashboard /> },
+                    { path:'jobs/create', element: <CreateJob/> },
+                    { path:'jobs', element: <RecruiterJobs/> }
                 ]
             }
         ]
