@@ -11,6 +11,12 @@ const corsOption={
 }
 app.use(express.json());
 app.use(cors(corsOption));
+app.get("/",(req,resp)=>{
+    return resp.status(200).json({
+        statusCode:200,
+        message:"Api is working"
+    })
+})
 app.use("/api",mainRoute);
 const startServer=async()=>{
     app.listen(PORT,async()=>{
